@@ -34,7 +34,13 @@ enum Command {
 
         /// TCP port used for control connections with the server.
         /// ATTENTION: This port must be equal on both the client and the server.
-        #[clap(short, long, env = "CONTROL_PORT", default_value_t = 7835, verbatim_doc_comment)]
+        #[clap(
+            short,
+            long,
+            env = "CONTROL_PORT",
+            default_value_t = 7835,
+            verbatim_doc_comment
+        )]
         control_port: u16,
     },
 
@@ -54,7 +60,13 @@ enum Command {
 
         /// TCP port used for control connections with the server.
         /// ATTENTION: This port must be equal on both the client and the server.
-        #[clap(short, long, env = "CONTROL_PORT", default_value_t = 7835, verbatim_doc_comment)]
+        #[clap(
+            short,
+            long,
+            env = "CONTROL_PORT",
+            default_value_t = 7835,
+            verbatim_doc_comment
+        )]
         control_port: u16,
     },
 }
@@ -70,7 +82,15 @@ async fn run(command: Command) -> Result<()> {
             secret,
             control_port,
         } => {
-            let client = Client::new(&local_host, local_port, &to, port, secret.as_deref(), control_port).await?;
+            let client = Client::new(
+                &local_host,
+                local_port,
+                &to,
+                port,
+                secret.as_deref(),
+                control_port,
+            )
+            .await?;
             client.listen().await?;
         }
         Command::Server {
@@ -85,7 +105,9 @@ async fn run(command: Command) -> Result<()> {
                     .error(ErrorKind::InvalidValue, "port range is empty")
                     .exit();
             }
-            Server::new(port_range, secret.as_deref(), control_port).listen().await?;
+            Server::new(port_range, secret.as_deref(), control_port)
+                .listen()
+                .await?;
         }
     }
 

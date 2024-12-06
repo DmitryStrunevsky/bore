@@ -30,11 +30,7 @@ pub struct Server {
 
 impl Server {
     /// Create a new server with a specified minimum port number.
-    pub fn new(
-        port_range: RangeInclusive<u16>,
-        secret: Option<&str>,
-        control_port: u16,
-    ) -> Self {
+    pub fn new(port_range: RangeInclusive<u16>, secret: Option<&str>, control_port: u16) -> Self {
         assert!(!port_range.is_empty(), "must provide at least one port");
         Server {
             port_range,
