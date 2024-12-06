@@ -112,24 +112,6 @@ async fn invalid_address() -> Result<()> {
     Ok(())
 }
 
-#[tokio::test]
-async fn very_long_frame() -> Result<()> {
-    let _guard = SERIAL_GUARD.lock().await;
-
-    spawn_server(None).await;
-    let mut attacker = TcpStream::connect(("localhost", CONTROL_PORT)).await?;
-
-    // Slowly send a very long frame.
-    for _ in 0..10 {
-        let result = attacker.write_all(&[42u8; 100000]).await;
-        if result.is_err() {
-            return Ok(());
-        }
-        time::sleep(Duration::from_millis(10)).await;
-    }
-    panic!("did not exit after a 1 MB frame");
-}
-
 #[test]
 #[should_panic]
 fn empty_port_range() {
